@@ -1,5 +1,5 @@
 require 'base64'
-require 'patron'
+require 'faraday'
 require 'stargate/operation/meta_operation'
 require 'stargate/operation/table_operation'
 require 'stargate/operation/row_operation'
@@ -20,12 +20,17 @@ module Stargate
         raise "invalid http url: #{url}"
       end
 
-      @connection = Patron::Session.new
-      @connection.base_url = url
-      @connection.timeout = opts[:timeout] unless opts[:timeout].nil?
+      faraday_options = {}
+      faraday_options[:proxy] = opts[:proxy] if opts[:proxy]
+      if opts[:timeout]
+        faraday_options[:request] = {}
+        faraday_options[:request][:timeout] = opts[:timeout]
+        faraday_options[:request][:open_timeout] = opts[:timeout]
+      end
 
-      # Not actually opening the connection yet, just setting up the persistent connection.
-      @connection.proxy = opts[:proxy] unless opts[:proxy].nil?
+      @connection = Faraday.new(url, faraday_options) do |connection|
+        yield connection if block_given?
+      end
     end
 
     def rest_get(path, options = {})
@@ -77,7 +82,7 @@ module Stargate
         when 200
           response.body
         else
-          raise response.status_line
+          raise response.status
         end
       end
 

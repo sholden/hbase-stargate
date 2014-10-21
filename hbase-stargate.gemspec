@@ -21,7 +21,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency(%q<yajl-ruby>, [">= 0"])
-  s.add_dependency(%q<patron>, [">= 0"])
-
-  s.add_development_dependency "rspec"
+  s.add_dependency(%q<faraday>, [">= 0"])
+  
+  s.add_development_dependency 'rake'
+  s.add_development_dependency "rspec", "~>2.3.0"
 end

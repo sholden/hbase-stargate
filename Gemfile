@@ -1,6 +1,9 @@
 source :rubygems
 
-gem "patron"
+gemspec
+
+gem "faraday"
+gem 'rake'
 
 platforms :ruby do
   gem "yajl-ruby"
@@ -11,6 +14,6 @@ platforms :jruby do
 end
 
 group :test do
-  gem "rspec"
+  gem "rspec", '~>2.99.0'
   # gem 'ruby-debug19', :require => 'ruby-debug'
 end
