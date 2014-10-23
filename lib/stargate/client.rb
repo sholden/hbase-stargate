@@ -58,11 +58,11 @@ module Stargate
     end
 
     def rest_put(path, data = nil, options = {})
-      safe_request { @connection.put(@url.path + path, nil, data, {'Content-Type' => 'text/xml'}.merge(options)) }
+      safe_request { @connection.put(@url.path + path, data, {'Content-Type' => 'text/xml'}.merge(options)) }
     end
 
     def rest_put_response(path, data = nil, options = {})
-      safe_response { @connection.put(@url.path + path, nil, data, {'Content-Type' => 'text/xml'}.merge(options)) }
+      safe_response { @connection.put(@url.path + path, data, {'Content-Type' => 'text/xml'}.merge(options)) }
     end
 
     private
